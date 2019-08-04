@@ -1,0 +1,33 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 615501dbe4f3fe94fbf4b564abb10237, type: 3}
+  m_Name: ModConfig
+  m_EditorClassIdentifier: 
+  id: vectorsModule
+  title: Vectors
+  author: eXish
+  description: 'Ever taken Physics or Calculus and ran into these things saying, "Oh
+    god no". Well looks like your gonna have to do them anyways.
+
+
+    HTML: https://ktane.timwi.de/HTML/Vectors.html
+
+    PDF: https://ktane.timwi.de/PDF/Vectors.pdf
+
+
+    Vectors (vectorsModule) v1.0.0
+
+    Mod and Concept by eXish
+
+    Twitch Plays supported'
+  version: 1.0.0
+  outputFolder: build
+  previewImage: {fileID: 2800000, guid: e64d36ca673c3b245bdf23349e6b56d7, type: 3}
