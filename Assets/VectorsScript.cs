@@ -253,7 +253,7 @@ public class VectorsScript : MonoBehaviour {
                         xcomps[vectorsPicked[i]] = UnityEngine.Random.Range(1, 100);
                         ycomps[vectorsPicked[i]] = UnityEngine.Random.Range(1, 100);
                         zcomps[vectorsPicked[i]] = UnityEngine.Random.Range(1, 100);
-                        xcomps[vectorsPicked[i]] = Math.Round(Math.Sqrt(Math.Pow(xcomps[vectorsPicked[i]], 2) + Math.Pow(ycomps[vectorsPicked[i]], 2) + Math.Pow(zcomps[vectorsPicked[i]], 2)), 1);
+                        magnitudes[vectorsPicked[i]] = Math.Round(Math.Sqrt(Math.Pow(xcomps[vectorsPicked[i]], 2) + Math.Pow(ycomps[vectorsPicked[i]], 2) + Math.Pow(zcomps[vectorsPicked[i]], 2)), 1);
                     }
                     else if (ran == 1)
                     {
@@ -1024,11 +1024,11 @@ public class VectorsScript : MonoBehaviour {
         if (bomb.GetBatteryCount() == 2 && bomb.GetPortPlateCount() > 2 && bomb.IsIndicatorPresent("SND") && bluevec == true)
         {
             unicorn = true;
-            ans = 99;
+            ans = 0;
             string[] randomtext = { "Do you really need vector info for this?", "Oh boy its one of these scenarios", "Um... what?", "Yay unicorns! :)" };
             int rand = UnityEngine.Random.Range(0, 4);
             display.text = randomtext[rand];
-            Debug.LogFormat("[Vectors #{0}] Unicorn conditions met (including a blue colored vector)! Button must be held for 99 seconds!", moduleId);
+            Debug.LogFormat("[Vectors #{0}] Unicorn conditions met (including a blue colored vector)! Button must be held for 0 seconds!", moduleId);
             return;
         }
         if(vectorct == 1)
@@ -2140,7 +2140,7 @@ public class VectorsScript : MonoBehaviour {
         bool check = int.TryParse(s, out temp);
         if(check == true)
         {
-            if(temp > 0 && temp < 21)
+            if(temp >= 0 && temp < 21)
             {
                 return true;
             }
@@ -2149,20 +2149,11 @@ public class VectorsScript : MonoBehaviour {
     }
 
     #pragma warning disable 414
-    private readonly string TwitchHelpMessage = @"!{0} hold for <#> [Holds the button for the specifed number of seconds, valid hold times range from 1-20] | !{0} unicorn [Submits the unicorn answer if it applies (This is here to prevent an uncancellable very long hold)] | !{0} zoom tilt u/d/l/r [Zoom in at different angles on the module to see 3D graph clearly, this is a general TP command]";
+    private readonly string TwitchHelpMessage = @"!{0} hold for <#> [Holds the button for the specifed number of seconds, valid hold times range from 0-20] | !{0} zoom tilt u/d/l/r [Zoom in at different angles on the module to see 3D graph clearly, this is a general TP command]";
     #pragma warning restore 414
 
     IEnumerator ProcessTwitchCommand(string command)
     {
-        if (Regex.IsMatch(command, @"^\s*unicorn\s*$", RegexOptions.IgnoreCase | RegexOptions.CultureInvariant))
-        {
-            yield return null;
-            button.OnInteract();
-            yield return new WaitForSeconds(0.2f);
-            buttonDisp.text = "99";
-            yield return new WaitForSeconds(0.2f);
-            button.OnInteractEnded();
-        }
         string[] parameters = command.Split(' ');
         if (Regex.IsMatch(parameters[0], @"^\s*hold\s*$", RegexOptions.IgnoreCase | RegexOptions.CultureInvariant))
         {
