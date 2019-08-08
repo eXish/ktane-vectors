@@ -1073,8 +1073,8 @@ public class VectorsScript : MonoBehaviour {
             if (colors[vectorsPicked[0]].Equals("Red"))
             {
                 Debug.LogFormat("[Vectors #{0}] Because the Vector's color is Red, the second number is calculated with ('# of batteries' * 5) + 6", moduleId);
-                secondNum = (bomb.GetBatteryCount() * 5) + 6;
-                Debug.LogFormat("[Vectors #{0}] Equation substitution: ({1} * 5) + 6 => {2} is the second number", moduleId, bomb.GetBatteryCount(), secondNum);
+                secondNum = (bomb.GetBatteryCount() * 5) + 3;
+                Debug.LogFormat("[Vectors #{0}] Equation substitution: ({1} * 5) + 3 => {2} is the second number", moduleId, bomb.GetBatteryCount(), secondNum);
             }else if (colors[vectorsPicked[0]].Equals("Orange"))
             {
                 Debug.LogFormat("[Vectors #{0}] Because the Vector's color is Orange, the second number is calculated with 'missing data value'^3 + 16 - '# of RCA ports'", moduleId);
