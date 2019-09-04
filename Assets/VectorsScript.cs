@@ -85,7 +85,7 @@ public class VectorsScript : MonoBehaviour {
     private Coroutine time;
 
     private int ans;
-    private int streak;
+    //private int streak;
 
     private bool unicorn;
     private bool breaker;
@@ -96,7 +96,7 @@ public class VectorsScript : MonoBehaviour {
 
     void Awake()
     {
-        streak = 1;
+        //streak = 1;
         moduleId = moduleIdCounter++;
         moduleSolved = false;
         button.OnInteract += delegate () { PressButton(button); return false; };
@@ -176,19 +176,25 @@ public class VectorsScript : MonoBehaviour {
             ring.material.color = original;
             if (held == ans)
             {
-                if(unicorn == true)
+                //these were in unicorn if originally
+                moduleSolved = true;
+                led1.material = correct;
+                led2.material = correct;
+                led3.material = correct;
+                display.text = "";
+                hideAllVectors();
+                StopCoroutine(graphMov);
+                StartCoroutine(solvedGraph());
+                if (unicorn == true)
                 {
-                    moduleSolved = true;
-                    led1.material = correct;
-                    led2.material = correct;
-                    led3.material = correct;
-                    display.text = "";
-                    hideAllVectors();
-                    StopCoroutine(graphMov);
-                    StartCoroutine(solvedGraph());
                     Debug.LogFormat("[Vectors #{0}] Unicorn successfully performed! Module Disarmed!", moduleId);
                 }
-                else if (streak == 3)
+                //this was not here originally
+                else
+                {
+                    Debug.LogFormat("[Vectors #{0}] The button was held for the correct amount of time of {1} seconds! Module Disarmed!", moduleId, ans);
+                }
+                /*else if (streak == 3)
                 {
                     moduleSolved = true;
                     led3.material = correct;
@@ -196,11 +202,11 @@ public class VectorsScript : MonoBehaviour {
                     hideAllVectors();
                     StopCoroutine(graphMov);
                     StartCoroutine(solvedGraph());
-                    Debug.LogFormat("[Vectors #{0}] Streak has reached 3! Module Disarmed!", moduleId);
+                    Debug.LogFormat("[Vectors #{0}] Stage 3 was correct! Module Disarmed!", moduleId);
                 }
                 else
                 {
-                    Debug.LogFormat("[Vectors #{0}] The button was held for the correct amount of time of {1} seconds! Streak is now {2}!", moduleId, ans, streak);
+                    Debug.LogFormat("[Vectors #{0}] The button was held for the correct amount of time of {1} seconds! Advancing to Stage {2}!", moduleId, ans, streak+1);
                     if(streak == 1)
                     {
                         led1.material = correct;
@@ -210,17 +216,14 @@ public class VectorsScript : MonoBehaviour {
                     }
                     streak++;
                     Start();
-                }
+                }*/
             }
             else
             {
-                Debug.LogFormat("[Vectors #{0}] The button was held for an incorrect amount of time of {1} seconds! Strike! Streak is now 0!", moduleId, held);
+                //Debug.LogFormat("[Vectors #{0}] The button was held for an incorrect amount of time of {1} seconds! Strike! Resetting Stage {2}!", moduleId, held, streak);
+                Debug.LogFormat("[Vectors #{0}] The button was held for an incorrect amount of time of {1} seconds! Strike! Resetting!", moduleId, held);
                 GetComponent<KMBombModule>().HandleStrike();
                 Start();
-                streak = 1;
-                led1.material = notdone;
-                led2.material = notdone;
-                led3.material = notdone;
             }
         }
     }
@@ -1377,12 +1380,12 @@ public class VectorsScript : MonoBehaviour {
         double step1 = s;
         s = Math.Abs(s);
         double step2 = s;
-        s %= 20;
+        s %= 15;
         double step3 = s;
         s += 1;
         double step4 = s;
         ans = (int)s;
-        Debug.LogFormat("[Vectors #{0}] S removed decimals = {1} | S absolute value = {2} | S % 20 = {3} | S + 1 = {4}", moduleId, step1, step2, step3, step4);
+        Debug.LogFormat("[Vectors #{0}] S removed decimals = {1} | S absolute value = {2} | S % 15 = {3} | S + 1 = {4}", moduleId, step1, step2, step3, step4);
         Debug.LogFormat("[Vectors #{0}] The calculated time to hold the button for is {1} seconds", moduleId, ans);
     }
 
@@ -2140,7 +2143,7 @@ public class VectorsScript : MonoBehaviour {
         bool check = int.TryParse(s, out temp);
         if(check == true)
         {
-            if(temp >= 0 && temp < 21)
+            if(temp >= 0 && temp < 16)
             {
                 return true;
             }
@@ -2149,7 +2152,7 @@ public class VectorsScript : MonoBehaviour {
     }
 
     #pragma warning disable 414
-    private readonly string TwitchHelpMessage = @"!{0} hold for <#> [Holds the button for the specifed number of seconds, valid hold times range from 0-20] | !{0} zoom tilt u/d/l/r [Zoom in at different angles on the module to see 3D graph clearly, this is a general TP command]";
+    private readonly string TwitchHelpMessage = @"!{0} hold for <#> [Holds the button for the specifed number of seconds, valid hold times range from 0-15] | !{0} zoom tilt u/d/l/r [Zoom in at different angles on the module to see 3D graph clearly, this is a general TP command]";
     #pragma warning restore 414
 
     IEnumerator ProcessTwitchCommand(string command)
