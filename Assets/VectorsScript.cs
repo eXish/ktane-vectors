@@ -88,7 +88,8 @@ public class VectorsScript : MonoBehaviour {
     //private int streak;
 
     private bool unicorn;
-    private bool breaker;
+    //private bool breaker;
+    private bool animating;
 
     static int moduleIdCounter = 1;
     int moduleId;
@@ -110,7 +111,7 @@ public class VectorsScript : MonoBehaviour {
         hideAllVectors();
         holding = false;
         unicorn = false;
-        breaker = false;
+        //breaker = false;
         ans = 0;
         necessary = 0;
         secondNum = 0;
@@ -1081,13 +1082,13 @@ public class VectorsScript : MonoBehaviour {
             }else if (colors[vectorsPicked[0]].Equals("Orange"))
             {
                 Debug.LogFormat("[Vectors #{0}] Because the Vector's color is Orange, the second number is calculated with 'missing data value'^3 + 16 - '# of RCA ports'", moduleId);
-                secondNum = (Math.Pow(missing, 3) + 16) - portCount("StereoRCA");
+                secondNum = Math.Pow(missing, 3) + 16 - portCount("StereoRCA");
+                secondNum = Math.Round(secondNum, 1);
                 Debug.LogFormat("[Vectors #{0}] Equation substitution: {1}^3 + 16 - {2} => {3} is the second number", moduleId, missing, portCount("StereoRCA"), secondNum);
             }else if (colors[vectorsPicked[0]].Equals("Yellow"))
             {
                 Debug.LogFormat("[Vectors #{0}] Because the Vector's color is Yellow, the second number is calculated with (('# of battery holders' * 14) % 5) + 1", moduleId);
-                secondNum = ((bomb.GetBatteryHolderCount() * 14) % 5) + 1;
-                secondNum = Math.Round(secondNum, 1);
+                secondNum = (bomb.GetBatteryHolderCount() * 14 % 5) + 1;
                 Debug.LogFormat("[Vectors #{0}] Equation substitution: (({1} * 14) % 5) + 1 => {2} is the second number", moduleId, bomb.GetBatteryHolderCount(), secondNum);
             }else if (colors[vectorsPicked[0]].Equals("Green"))
             {
@@ -1098,12 +1099,12 @@ public class VectorsScript : MonoBehaviour {
             {
                 Debug.LogFormat("[Vectors #{0}] Because the Vector's color is Blue, the second number is calculated with 8 * ((5 + 'vector's magnitude') + 6)", moduleId);
                 secondNum = 8 * ((5 + magnitudes[vectorsPicked[0]]) + 6);
+                secondNum = Math.Round(secondNum, 1);
                 Debug.LogFormat("[Vectors #{0}] Equation substitution: 8 * ((5 + {1}) + 6) => {2} is the second number", moduleId, magnitudes[vectorsPicked[0]], secondNum);
             }else if (colors[vectorsPicked[0]].Equals("Purple"))
             {
                 Debug.LogFormat("[Vectors #{0}] Because the Vector's color is Purple, the second number is calculated with ('vector's z-component' + 6) % 3", moduleId);
                 secondNum = (zcomps[vectorsPicked[0]] + 6) % 3;
-                secondNum = Math.Round(secondNum, 1);
                 Debug.LogFormat("[Vectors #{0}] Equation substitution: ({1} + 6) % 3 => {2} is the second number", moduleId, zcomps[vectorsPicked[0]], secondNum);
             }
         }
@@ -1225,7 +1226,7 @@ public class VectorsScript : MonoBehaviour {
                         Debug.LogFormat("[Vectors #{0}] Because the first serial number digit is 0, 1 will be substituted instead", moduleId);
                     }
                     total = 0;
-                    total = tot / num;
+                    total = Math.Round(tot / num, 1);
                     Debug.LogFormat("[Vectors #{0}] The necessary number is {1} / {2} => {3}", moduleId, tot, num, total);
                 }
             }
@@ -1280,13 +1281,14 @@ public class VectorsScript : MonoBehaviour {
 
     private IEnumerator cycleInfo()
     {
-        if(vectorct == 2)
+        if (vectorct == 2)
         {
             display.text = autoscroller[0];
             yield return new WaitForSeconds(1.5f);
             display.text = autoscroller[1];
             yield return new WaitForSeconds(1.5f);
-        }else if (vectorct == 3)
+        }
+        else if (vectorct == 3)
         {
             display.text = autoscroller[0];
             yield return new WaitForSeconds(1.5f);
@@ -2024,6 +2026,7 @@ public class VectorsScript : MonoBehaviour {
 
     private IEnumerator solvedGraph()
     {
+        animating = true;
         int movement = 0;
         while (movement != 100)
         {
@@ -2031,6 +2034,7 @@ public class VectorsScript : MonoBehaviour {
             graph.transform.localPosition = graph.transform.localPosition + Vector3.up * -0.001f;
             movement++;
         }
+        animating = false;
         GetComponent<KMBombModule>().HandlePass();
         StopCoroutine("solvedGraph");
     }
@@ -2164,17 +2168,30 @@ public class VectorsScript : MonoBehaviour {
             {
                 if (Regex.IsMatch(parameters[1], @"^\s*for\s*$", RegexOptions.IgnoreCase | RegexOptions.CultureInvariant))
                 {
+                    yield return null;
                     if (inputIsValid(parameters[2]))
                     {
-                        yield return null;
                         button.OnInteract();
                         while (buttonDisp.text != parameters[2]) yield return new WaitForSeconds(0.1f);
                         button.OnInteractEnded();
                         yield break;
                     }
+                    else
+                    {
+                        yield return "sendtochaterror The specified time to hold the button for '" + parameters[2] + "' is invalid!";
+                    }
                 }
             }
             yield break;
         }
+    }
+
+    IEnumerator TwitchHandleForcedSolve()
+    {
+        button.OnInteract();
+        while (buttonDisp.text != (ans + "")) yield return new WaitForSeconds(0.1f);
+        button.OnInteractEnded();
+        yield return new WaitForSeconds(0.1f);
+        while (animating) { yield return true; yield return new WaitForSeconds(0.1f); }
     }
 }
