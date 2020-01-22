@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -93,6 +93,22 @@ public class VectorsScript : MonoBehaviour {
     static int moduleIdCounter = 1;
     int moduleId;
     private bool moduleSolved;
+
+    #pragma warning disable 414
+    List<int> arduinoRGBValues = new List<int>() {0,0,0};
+    #pragma warning restore 414
+
+    private Dictionary<string, List<int>> colorValues = new Dictionary<string, List<int>>()
+    {
+        {"Red", new List<int>() {255,0,0}},
+        {"Orange", new List<int>() {185,95,0}},
+        {"Yellow", new List<int>() {255,248,0}},
+        {"Green", new List<int>() {0,255,0}},
+        {"Blue", new List<int>() {0,0,255}},
+        {"Purple", new List<int>() {125,0,255}},
+        {"White", new List<int>() {255,255,255}},
+        {"None", new List<int>() {0,0,0}}
+    };
 
     void Awake()
     {
@@ -1283,16 +1299,21 @@ public class VectorsScript : MonoBehaviour {
         if(vectorct == 2)
         {
             display.text = autoscroller[0];
+            arduinoRGBValues=colorValues[colors[vectorsPicked[0]]];
             yield return new WaitForSeconds(1.5f);
             display.text = autoscroller[1];
+            arduinoRGBValues=colorValues[colors[vectorsPicked[1]]];
             yield return new WaitForSeconds(1.5f);
         }else if (vectorct == 3)
         {
             display.text = autoscroller[0];
+            arduinoRGBValues=colorValues[colors[vectorsPicked[0]]];
             yield return new WaitForSeconds(1.5f);
             display.text = autoscroller[1];
+            arduinoRGBValues=colorValues[colors[vectorsPicked[1]]];
             yield return new WaitForSeconds(1.5f);
             display.text = autoscroller[2];
+            arduinoRGBValues=colorValues[colors[vectorsPicked[2]]];
             yield return new WaitForSeconds(1.5f);
         }
         StopCoroutine(autoscroll);
@@ -1681,6 +1702,7 @@ public class VectorsScript : MonoBehaviour {
             Color temp = original;
             if (pickedRColors[0].Equals("white"))
             {
+                arduinoRGBValues = getColorByRing("White");
                 while(temp.r < 1.0f || temp.b < 1.0f || temp.g < 1.0f)
                 {
                     temp.r += 0.01f;
@@ -1697,9 +1719,11 @@ public class VectorsScript : MonoBehaviour {
                     ring.material.color = temp;
                     yield return new WaitForSeconds(0.01f);
                 }
+                arduinoRGBValues = getColorByRing("None");
             }
             else if (pickedRColors[0].Equals("red"))
             {
+                arduinoRGBValues = getColorByRing("Red");
                 while (temp.r < 1.0f || temp.b > 0.0f || temp.g > 0.0f)
                 {
                     temp.r += 0.01f;
@@ -1728,9 +1752,11 @@ public class VectorsScript : MonoBehaviour {
                     ring.material.color = temp;
                     yield return new WaitForSeconds(0.01f);
                 }
+                arduinoRGBValues = getColorByRing("None");
             }
             else if (pickedRColors[0].Equals("blue"))
             {
+                arduinoRGBValues = getColorByRing("Blue");
                 while (temp.r > 0.0f || temp.b < 1.0f || temp.g > 0.0f)
                 {
                     temp.b += 0.01f;
@@ -1759,9 +1785,11 @@ public class VectorsScript : MonoBehaviour {
                     ring.material.color = temp;
                     yield return new WaitForSeconds(0.01f);
                 }
+                arduinoRGBValues = getColorByRing("None");
             }
             else if (pickedRColors[0].Equals("green"))
             {
+                arduinoRGBValues = getColorByRing("Green");
                 while (temp.r > 0.0f || temp.b > 0.0f || temp.g < 1.0f)
                 {
                     temp.g += 0.01f;
@@ -1790,10 +1818,12 @@ public class VectorsScript : MonoBehaviour {
                     ring.material.color = temp;
                     yield return new WaitForSeconds(0.01f);
                 }
+                arduinoRGBValues = getColorByRing("None");
             }
             yield return new WaitForSeconds(1.0f);
             if (pickedRColors[1].Equals("white"))
             {
+                arduinoRGBValues = getColorByRing("White");
                 while (temp.r < 1.0f || temp.b < 1.0f || temp.g < 1.0f)
                 {
                     temp.r += 0.01f;
@@ -1810,9 +1840,11 @@ public class VectorsScript : MonoBehaviour {
                     ring.material.color = temp;
                     yield return new WaitForSeconds(0.01f);
                 }
+                arduinoRGBValues = getColorByRing("None");
             }
             else if (pickedRColors[1].Equals("red"))
             {
+                arduinoRGBValues = getColorByRing("Red");
                 while (temp.r < 1.0f || temp.b > 0.0f || temp.g > 0.0f)
                 {
                     temp.r += 0.01f;
@@ -1841,9 +1873,11 @@ public class VectorsScript : MonoBehaviour {
                     ring.material.color = temp;
                     yield return new WaitForSeconds(0.01f);
                 }
+                arduinoRGBValues = getColorByRing("None");
             }
             else if (pickedRColors[1].Equals("blue"))
             {
+                arduinoRGBValues = getColorByRing("Blue");
                 while (temp.r > 0.0f || temp.b < 1.0f || temp.g > 0.0f)
                 {
                     temp.b += 0.01f;
@@ -1872,9 +1906,11 @@ public class VectorsScript : MonoBehaviour {
                     ring.material.color = temp;
                     yield return new WaitForSeconds(0.01f);
                 }
+                arduinoRGBValues = getColorByRing("None");
             }
             else if (pickedRColors[1].Equals("green"))
             {
+                arduinoRGBValues = getColorByRing("Green");
                 while (temp.r > 0.0f || temp.b > 0.0f || temp.g < 1.0f)
                 {
                     temp.g += 0.01f;
@@ -1903,10 +1939,12 @@ public class VectorsScript : MonoBehaviour {
                     ring.material.color = temp;
                     yield return new WaitForSeconds(0.01f);
                 }
+                arduinoRGBValues = getColorByRing("None");
             }
             yield return new WaitForSeconds(1.0f);
             if (pickedRColors[2].Equals("white"))
             {
+                arduinoRGBValues = getColorByRing("White");
                 while (temp.r < 1.0f || temp.b < 1.0f || temp.g < 1.0f)
                 {
                     temp.r += 0.01f;
@@ -1923,9 +1961,11 @@ public class VectorsScript : MonoBehaviour {
                     ring.material.color = temp;
                     yield return new WaitForSeconds(0.01f);
                 }
+                arduinoRGBValues = getColorByRing("None");
             }
             else if (pickedRColors[2].Equals("red"))
             {
+                arduinoRGBValues = getColorByRing("Red");
                 while (temp.r < 1.0f || temp.b > 0.0f || temp.g > 0.0f)
                 {
                     temp.r += 0.01f;
@@ -1954,9 +1994,11 @@ public class VectorsScript : MonoBehaviour {
                     ring.material.color = temp;
                     yield return new WaitForSeconds(0.01f);
                 }
+                arduinoRGBValues = getColorByRing("None");
             }
             else if (pickedRColors[2].Equals("blue"))
             {
+                arduinoRGBValues = getColorByRing("Blue");
                 while (temp.r > 0.0f || temp.b < 1.0f || temp.g > 0.0f)
                 {
                     temp.b += 0.01f;
@@ -1985,9 +2027,11 @@ public class VectorsScript : MonoBehaviour {
                     ring.material.color = temp;
                     yield return new WaitForSeconds(0.01f);
                 }
+                arduinoRGBValues = getColorByRing("None");
             }
             else if (pickedRColors[2].Equals("green"))
             {
+                arduinoRGBValues = getColorByRing("Green");
                 while (temp.r > 0.0f || temp.b > 0.0f || temp.g < 1.0f)
                 {
                     temp.g += 0.01f;
@@ -2016,10 +2060,16 @@ public class VectorsScript : MonoBehaviour {
                     ring.material.color = temp;
                     yield return new WaitForSeconds(0.01f);
                 }
+                arduinoRGBValues = getColorByRing("None");
             }
             yield return new WaitForSeconds(3.0f);
         }
         StopCoroutine("ringSequence");
+    }
+
+    private List<int> getColorByRing(string name)
+    {
+        return vectorct == 1 ? colorValues[name] : arduinoRGBValues;
     }
 
     private IEnumerator solvedGraph()
