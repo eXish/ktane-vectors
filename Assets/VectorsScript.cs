@@ -1084,7 +1084,7 @@ public class VectorsScript : MonoBehaviour {
                 Debug.LogFormat("[Vectors #{0}] Because the Vector's color is Orange, the second number is calculated with 'missing data value'^3 + 16 - '# of RCA ports'", moduleId);
                 secondNum = Math.Pow(missing, 3) + 16 - portCount("StereoRCA");
                 secondNum = Math.Round(secondNum, 1);
-                Debug.LogFormat("[Vectors #{0}] Equation substitution: {1}^3 + 16 - {2} => {3} is the second number", moduleId, missing, portCount("StereoRCA"), secondNum);
+                Debug.LogFormat("[Vectors #{0}] Equation substitution: ({1})^3 + 16 - {2} => {3} is the second number", moduleId, missing, portCount("StereoRCA"), secondNum);
             }else if (colors[vectorsPicked[0]].Equals("Yellow"))
             {
                 Debug.LogFormat("[Vectors #{0}] Because the Vector's color is Yellow, the second number is calculated with (('# of battery holders' * 14) % 5) + 1", moduleId);
@@ -1098,13 +1098,18 @@ public class VectorsScript : MonoBehaviour {
             }else if (colors[vectorsPicked[0]].Equals("Blue"))
             {
                 Debug.LogFormat("[Vectors #{0}] Because the Vector's color is Blue, the second number is calculated with 8 * ((5 + 'vector's magnitude') + 6)", moduleId);
-                secondNum = 8 * ((5 + magnitudes[vectorsPicked[0]]) + 6);
+                secondNum = 8 * (5 + magnitudes[vectorsPicked[0]] + 6);
                 secondNum = Math.Round(secondNum, 1);
                 Debug.LogFormat("[Vectors #{0}] Equation substitution: 8 * ((5 + {1}) + 6) => {2} is the second number", moduleId, magnitudes[vectorsPicked[0]], secondNum);
             }else if (colors[vectorsPicked[0]].Equals("Purple"))
             {
                 Debug.LogFormat("[Vectors #{0}] Because the Vector's color is Purple, the second number is calculated with ('vector's z-component' + 6) % 3", moduleId);
                 secondNum = (zcomps[vectorsPicked[0]] + 6) % 3;
+                if(secondNum < 0)
+                {
+                    secondNum += 3;
+                }
+                secondNum = Math.Round(secondNum, 1);
                 Debug.LogFormat("[Vectors #{0}] Equation substitution: ({1} + 6) % 3 => {2} is the second number", moduleId, zcomps[vectorsPicked[0]], secondNum);
             }
         }
