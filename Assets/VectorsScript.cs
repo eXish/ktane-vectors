@@ -1042,7 +1042,7 @@ public class VectorsScript : MonoBehaviour {
             {
                 Debug.LogFormat("[Vectors #{0}] The Vector data values are... | Color: {1} | Magnitude: {2} | X-Component: {3} | Y-Component: {4} | Z-Component: {5}", moduleId, colors[vectorsPicked[0]], "?", xcomps[vectorsPicked[0]], ycomps[vectorsPicked[0]], zcomps[vectorsPicked[0]]);
                 Debug.LogFormat("[Vectors #{0}] The missing data value is 'Magnitude', the equation M = sqrt(x^2 + y^2 + z^2) must be used", moduleId);
-                Debug.LogFormat("[Vectors #{0}] Equation Substitution: M = sqrt({1}^2 + {2}^2 + {3}^2)", moduleId, xcomps[vectorsPicked[0]], ycomps[vectorsPicked[0]], zcomps[vectorsPicked[0]]);
+                Debug.LogFormat("[Vectors #{0}] Equation Substitution: M = sqrt(({1})^2 + ({2})^2 + ({3})^2)", moduleId, xcomps[vectorsPicked[0]], ycomps[vectorsPicked[0]], zcomps[vectorsPicked[0]]);
                 Debug.LogFormat("[Vectors #{0}] The solution to the equation is {1}, making this the missing 'Magnitude' value", moduleId, magnitudes[vectorsPicked[0]]);
                 missing = magnitudes[vectorsPicked[0]];
                 display.text = "Vector 1 ("+colors[vectorsPicked[0]]+") Magnitude: ? X-Component: "+ Math.Abs(xcomps[vectorsPicked[0]])+" Y-Component: "+ Math.Abs(ycomps[vectorsPicked[0]]) +" Z-Component: "+ Math.Abs(zcomps[vectorsPicked[0]]);
@@ -1051,7 +1051,7 @@ public class VectorsScript : MonoBehaviour {
             {
                 Debug.LogFormat("[Vectors #{0}] The Vector data values are... | Color: {1} | Magnitude: {2} | X-Component: {3} | Y-Component: {4} | Z-Component: {5}", moduleId, colors[vectorsPicked[0]], magnitudes[vectorsPicked[0]], "?", ycomps[vectorsPicked[0]], zcomps[vectorsPicked[0]]);
                 Debug.LogFormat("[Vectors #{0}] The missing data value is 'X-Component', the equation A = sqrt(M^2 - B^2 - C^2) must be used", moduleId);
-                Debug.LogFormat("[Vectors #{0}] Equation Substitution: A = sqrt({1}^2 - {2}^2 - {3}^2)", moduleId, magnitudes[vectorsPicked[0]], ycomps[vectorsPicked[0]], zcomps[vectorsPicked[0]]);
+                Debug.LogFormat("[Vectors #{0}] Equation Substitution: A = sqrt(({1})^2 - ({2})^2 - ({3})^2)", moduleId, magnitudes[vectorsPicked[0]], ycomps[vectorsPicked[0]], zcomps[vectorsPicked[0]]);
                 Debug.LogFormat("[Vectors #{0}] The solution to the equation is {1}, making this the missing 'X-Component' value", moduleId, xcomps[vectorsPicked[0]]);
                 missing = xcomps[vectorsPicked[0]];
                 display.text = "Vector 1 (" + colors[vectorsPicked[0]] + ") Magnitude: "+magnitudes[vectorsPicked[0]]+" X-Component: ? Y-Component: " + Math.Abs(ycomps[vectorsPicked[0]]) + " Z-Component: " + Math.Abs(zcomps[vectorsPicked[0]]);
@@ -1060,7 +1060,7 @@ public class VectorsScript : MonoBehaviour {
             {
                 Debug.LogFormat("[Vectors #{0}] The Vector data values are... | Color: {1} | Magnitude: {2} | X-Component: {3} | Y-Component: {4} | Z-Component: {5}", moduleId, colors[vectorsPicked[0]], magnitudes[vectorsPicked[0]], xcomps[vectorsPicked[0]], "?", zcomps[vectorsPicked[0]]);
                 Debug.LogFormat("[Vectors #{0}] The missing data value is 'Y-Component', the equation A = sqrt(M^2 - B^2 - C^2) must be used", moduleId);
-                Debug.LogFormat("[Vectors #{0}] Equation Substitution: A = sqrt({1}^2 - {2}^2 - {3}^2)", moduleId, magnitudes[vectorsPicked[0]], xcomps[vectorsPicked[0]], zcomps[vectorsPicked[0]]);
+                Debug.LogFormat("[Vectors #{0}] Equation Substitution: A = sqrt(({1})^2 - ({2})^2 - ({3})^2)", moduleId, magnitudes[vectorsPicked[0]], xcomps[vectorsPicked[0]], zcomps[vectorsPicked[0]]);
                 Debug.LogFormat("[Vectors #{0}] The solution to the equation is {1}, making this the missing 'Y-Component' value", moduleId, ycomps[vectorsPicked[0]]);
                 missing = ycomps[vectorsPicked[0]];
                 display.text = "Vector 1 (" + colors[vectorsPicked[0]] + ") Magnitude: " + magnitudes[vectorsPicked[0]] + " X-Component: "+ Math.Abs(xcomps[vectorsPicked[0]])+" Y-Component: ? Z-Component: " + Math.Abs(zcomps[vectorsPicked[0]]);
@@ -1069,7 +1069,7 @@ public class VectorsScript : MonoBehaviour {
             {
                 Debug.LogFormat("[Vectors #{0}] The Vector data values are... | Color: {1} | Magnitude: {2} | X-Component: {3} | Y-Component: {4} | Z-Component: {5}", moduleId, colors[vectorsPicked[0]], magnitudes[vectorsPicked[0]], xcomps[vectorsPicked[0]], ycomps[vectorsPicked[0]], "?");
                 Debug.LogFormat("[Vectors #{0}] The missing data value is 'Z-Component', the equation A = sqrt(M^2 - B^2 - C^2) must be used", moduleId);
-                Debug.LogFormat("[Vectors #{0}] Equation Substitution: A = sqrt({1}^2 - {2}^2 - {3}^2)", moduleId, magnitudes[vectorsPicked[0]], xcomps[vectorsPicked[0]], ycomps[vectorsPicked[0]]);
+                Debug.LogFormat("[Vectors #{0}] Equation Substitution: A = sqrt(({1})^2 - ({2})^2 - ({3})^2)", moduleId, magnitudes[vectorsPicked[0]], xcomps[vectorsPicked[0]], ycomps[vectorsPicked[0]]);
                 Debug.LogFormat("[Vectors #{0}] The solution to the equation is {1}, making this the missing 'Z-Component' value", moduleId, zcomps[vectorsPicked[0]]);
                 missing = zcomps[vectorsPicked[0]];
                 display.text = "Vector 1 (" + colors[vectorsPicked[0]] + ") Magnitude: " + magnitudes[vectorsPicked[0]] + " X-Component: " + Math.Abs(xcomps[vectorsPicked[0]]) + " Y-Component: "+ Math.Abs(ycomps[vectorsPicked[0]])+" Z-Component: ?";
