@@ -23,11 +23,11 @@ MonoBehaviour:
     PDF: https://ktane.timwi.de/PDF/Vectors.pdf
 
 
-    Vectors (vectorsModule) v1.0.9
+    Vectors (vectorsModule) v1.1.0
 
     Mod and Concept by eXish
 
     Twitch Plays supported'
-  version: 1.0.9
+  version: 1.1.0
   outputFolder: build
   previewImage: {fileID: 2800000, guid: e64d36ca673c3b245bdf23349e6b56d7, type: 3}
