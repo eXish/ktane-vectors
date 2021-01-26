@@ -151,10 +151,10 @@ public class VectorsScript : MonoBehaviour {
 
     void PressButton(KMSelectable pressed)
     {
-        if(moduleSolved != true)
+        if(moduleSolved != true && !holding)
         {
-            pressed.AddInteractionPunch(0.25f);
-            audio.PlayGameSoundAtTransform(KMSoundOverride.SoundEffect.BigButtonPress, transform);
+            pressed.AddInteractionPunch(0.5f);
+            audio.PlayGameSoundAtTransform(KMSoundOverride.SoundEffect.BigButtonPress, pressed.transform);
             holding = true;
             time = StartCoroutine(timer());
             StartCoroutine(downButton());
@@ -163,10 +163,10 @@ public class VectorsScript : MonoBehaviour {
 
     void ReleaseButton(KMSelectable pressed)
     {
-        if (moduleSolved != true)
+        if (moduleSolved != true && holding)
         {
-            pressed.AddInteractionPunch(0.1f);
-            audio.PlayGameSoundAtTransform(KMSoundOverride.SoundEffect.BigButtonRelease, transform);
+            pressed.AddInteractionPunch(0.25f);
+            audio.PlayGameSoundAtTransform(KMSoundOverride.SoundEffect.BigButtonRelease, pressed.transform);
             holding = false;
             StartCoroutine(upButton());
             StopCoroutine(ringSeq);
@@ -1682,7 +1682,7 @@ public class VectorsScript : MonoBehaviour {
     private IEnumerator ringSequence()
     {
         yield return new WaitForSeconds(1.0f);
-        while(moduleSolved != true)
+        while (moduleSolved != true)
         {
             original = ring.material.color;
             Color temp = original;
@@ -2118,15 +2118,13 @@ public class VectorsScript : MonoBehaviour {
     {
         held = 0;
         double held2 = 0;
-        int counter = 0;
         while (holding)
         {
-            yield return new WaitForSeconds(0.1f);
-            held2 += 0.1;
-            counter++;
-            if(counter == 10)
+            yield return null;
+            held2 += Time.deltaTime;
+            if(held2 >= 1)
             {
-                counter = 0;
+                held2 = 0;
                 held += 1;
                 if(held <= 99)
                 {
@@ -2169,23 +2167,47 @@ public class VectorsScript : MonoBehaviour {
         string[] parameters = command.Split(' ');
         if (Regex.IsMatch(parameters[0], @"^\s*hold\s*$", RegexOptions.IgnoreCase | RegexOptions.CultureInvariant))
         {
-            if(parameters.Length == 3)
+            yield return null;
+            if (parameters.Length > 3)
+            {
+                yield return "sendtochaterror Too many parameters!";
+            }
+            else if (parameters.Length == 3)
             {
                 if (Regex.IsMatch(parameters[1], @"^\s*for\s*$", RegexOptions.IgnoreCase | RegexOptions.CultureInvariant))
                 {
-                    yield return null;
                     if (inputIsValid(parameters[2]))
                     {
                         button.OnInteract();
-                        while (buttonDisp.text != parameters[2]) yield return new WaitForSeconds(0.1f);
+                        while (buttonDisp.text != parameters[2]) yield return null;
                         button.OnInteractEnded();
-                        yield break;
+                        if (moduleSolved)
+                            yield return "solve";
                     }
                     else
                     {
-                        yield return "sendtochaterror The specified time to hold the button for '" + parameters[2] + "' is invalid!";
+                        yield return "sendtochaterror!f The specified time to hold the button for '" + parameters[2] + "' is invalid!";
                     }
                 }
+                else
+                {
+                    yield return "sendtochaterror!f Expected the word 'for' but received '" + parameters[1] + "'!";
+                }
+            }
+            else if (parameters.Length == 2)
+            {
+                if (Regex.IsMatch(parameters[1], @"^\s*for\s*$", RegexOptions.IgnoreCase | RegexOptions.CultureInvariant))
+                {
+                    yield return "sendtochaterror Please specify a number of seconds to hold the button for!";
+                }
+                else
+                {
+                    yield return "sendtochaterror!f Expected the word 'for' but received '" + parameters[1] + "'!";
+                }
+            }
+            else if (parameters.Length == 1)
+            {
+                yield return "sendtochaterror Please specify the word 'for' and a number of seconds to hold the button for!";
             }
             yield break;
         }
@@ -2193,10 +2215,39 @@ public class VectorsScript : MonoBehaviour {
 
     IEnumerator TwitchHandleForcedSolve()
     {
-        button.OnInteract();
-        while (buttonDisp.text != (ans + "")) yield return new WaitForSeconds(0.1f);
-        button.OnInteractEnded();
-        yield return new WaitForSeconds(0.1f);
-        while (animating) { yield return true; yield return new WaitForSeconds(0.1f); }
+        if (!moduleSolved)
+        {
+            if (!holding)
+            {
+                button.OnInteract();
+                if (unicorn)
+                    yield return new WaitForSeconds(0.1f);
+            }
+            else if (held > ans)
+            {
+                button.AddInteractionPunch(0.25f);
+                audio.PlayGameSoundAtTransform(KMSoundOverride.SoundEffect.BigButtonRelease, button.transform);
+                moduleSolved = true;
+                StopCoroutine(time);
+                StartCoroutine(upButton());
+                StopCoroutine(ringSeq);
+                if (autoscroll != null)
+                {
+                    StopCoroutine(autoscroll);
+                }
+                ring.material.color = original;
+                buttonDisp.text = "GG";
+                led1.material = correct;
+                led2.material = correct;
+                led3.material = correct;
+                display.text = "";
+                hideAllVectors();
+                StopCoroutine(graphMov);
+                StartCoroutine(solvedGraph());
+            }
+            while (buttonDisp.text != (ans + "")) yield return null;
+            button.OnInteractEnded();
+        }
+        while (animating) { yield return true; }
     }
 }
