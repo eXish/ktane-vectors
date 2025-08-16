@@ -1349,7 +1349,7 @@ public class VectorsScript : MonoBehaviour {
             double arrowmods = 0;
             for(int i = 0; i < bomb.GetModuleNames().Count; i++)
             {
-                if (bomb.GetModuleNames().ElementAt(i).Equals("Red Arrows") || bomb.GetModuleNames().ElementAt(i).Equals("Orange Arrows") || bomb.GetModuleNames().ElementAt(i).Equals("Yellow Arrows") || bomb.GetModuleNames().ElementAt(i).Equals("Green Arrows") || bomb.GetModuleNames().ElementAt(i).Equals("Teal Arrows") || bomb.GetModuleNames().ElementAt(i).Equals("Blue Arrows") || bomb.GetModuleNames().ElementAt(i).Equals("Purple Arrows"))
+                if (bomb.GetModuleNames().ElementAt(i).Equals("Red Arrows") || bomb.GetModuleNames().ElementAt(i).Equals("Orange Arrows") || bomb.GetModuleNames().ElementAt(i).Equals("Brown Arrows") || bomb.GetModuleNames().ElementAt(i).Equals("Yellow Arrows") || bomb.GetModuleNames().ElementAt(i).Equals("Green Arrows") || bomb.GetModuleNames().ElementAt(i).Equals("Teal Arrows") || bomb.GetModuleNames().ElementAt(i).Equals("Blue Arrows") || bomb.GetModuleNames().ElementAt(i).Equals("Purple Arrows"))
                 {
                     arrowmods++;
                 }
